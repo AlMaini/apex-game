@@ -19,5 +19,5 @@ class Hand {
         Vector2 hand_position;
         float card_spacing;
         float card_width;
-        int current_card_hovered; // Index of the currently hovered card, -1 if none
+        int lastHovered;
 };

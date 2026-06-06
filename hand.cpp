@@ -7,7 +7,7 @@ Hand::Hand(int window_x, int window_y, float card_width, int max_hand_size) {
     this->max_hand_size = max_hand_size;
     hand_position = Vector2{static_cast<float>(window_x) / 2.0f, static_cast<float>(window_y) - 100.0f}; // hand centered at the bottom of the screen
     card_spacing = 40.0f;
-    current_card_hovered = -1;
+    lastHovered = -1;
 }
 
 void Hand::AddCard(const Card& card) {
@@ -37,28 +37,28 @@ void Hand::Draw() {
     const float start_x = hand_position.x - total_width / 2.0f;
     const Vector2 mousePos = GetMousePosition();
 
-    // set card positions
     for (int i = 0; i < (int)cards.size(); ++i)
         cards[i].SetPosition(Vector2{start_x + i * card_spacing, hand_position.y});
 
-    // check for hover
-    current_card_hovered = -1;
+    int hovered = -1;
     for (int i = (int)cards.size() - 1; i >= 0; --i) {
         if (cards[i].IsHovered(mousePos)) {
-            current_card_hovered = i;
+            hovered = i;
             break;
         }
     }
 
-    // draw normal cards
-    for (int i = 0; i < (int)cards.size(); ++i) {
-        if (i != current_card_hovered)
-            cards[i].Draw();
+    // if the hovered card changed, set previous to false 
+    if (lastHovered != hovered) {
+        if (lastHovered != -1) cards[lastHovered].SetHovered(false);
+        if (hovered != -1)           cards[hovered].SetHovered(true);
+        lastHovered = hovered;
     }
 
-    // draw hovered card last to draw it on top
-    if (current_card_hovered != -1) {
-        cards[current_card_hovered].DrawHovered();
-    }
+    for (int i = 0; i < (int)cards.size(); ++i)
+        if (i != lastHovered) cards[i].Draw();
+
+    if (lastHovered != -1)
+        cards[lastHovered].Draw();
 
 }
