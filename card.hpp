@@ -4,8 +4,9 @@
 class Card
 {
     public:
-        Card(Texture2D& texture, Vector2 pos); // Constructor
+        Card(Texture2D& texture); // Constructor
         void Draw();
+        void DrawHovered();
         bool IsHovered(Vector2 mousePos);
         bool IsClicked(Vector2 mousePos);
         void SetPosition(Vector2 newPos);

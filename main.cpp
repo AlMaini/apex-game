@@ -10,13 +10,16 @@ using namespace std;
 
 int main() {
 
-    ResourceManager resourceManager;
-    Hand hand;
+    int window_x = 800;
+    int window_y = 800;
 
-    InitWindow(800, 800, "Apex Game");
+    ResourceManager resourceManager;
+    Hand hand{window_x, window_y, 64.0f};
+
+    InitWindow(window_x, window_y, "Apex Game");
 
     for(int i = 0; i < 5; ++i) {
-        hand.AddCard(Card(resourceManager.GetTexture("assets/cat.png"), Vector2{100.0f + i * 150.0f, 600.0f}));
+        hand.AddCard(Card(resourceManager.GetTexture("assets/cat.png")));
     }
 
     while (!WindowShouldClose()) {

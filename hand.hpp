@@ -1,15 +1,23 @@
 #pragma once
 
 #include <vector>
+#include <raylib.h>
 #include "card.hpp"
 
 class Hand {
     public:
-        Hand();
+        Hand(int window_x, int window_y, float card_width);
         void AddCard(const Card& card);
+        void RemoveCard(size_t index);
         void Draw();
+        void Clear();
         std::vector<Card>& GetCards();
 
     private:
         std::vector<Card> cards;
+        int max_hand_size;
+        Vector2 hand_position;
+        float card_spacing;
+        float card_width;
+        int current_card_hovered; // Index of the currently hovered card, -1 if none
 };

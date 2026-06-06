@@ -1,12 +1,29 @@
 #include <vector>
 #include "hand.hpp"
 
-Hand::Hand() {
+Hand::Hand(int window_x, int window_y, float card_width) {
     cards = std::vector<Card>();
+    this->card_width = card_width;
+    max_hand_size = 5;
+    hand_position = Vector2{static_cast<float>(window_x) / 2.0f, static_cast<float>(window_y) - 300.0f}; // hand centered at the bottom of the screen
+    card_spacing = 40.0f;
+    current_card_hovered = -1;
 }
 
 void Hand::AddCard(const Card& card) {
-    cards.push_back(card);
+    if (cards.size() < max_hand_size) {
+        cards.push_back(card);
+    }
+}
+
+void Hand::RemoveCard(size_t index) {
+    if (index < cards.size()) {
+        cards.erase(cards.begin() + index);
+    }
+}
+
+void Hand::Clear() {
+    cards.clear();
 }
 
 std::vector<Card>& Hand::GetCards() {
@@ -14,9 +31,32 @@ std::vector<Card>& Hand::GetCards() {
 }
 
 void Hand::Draw() {
-    // Reset the position of the cards in the hand and draw them
-    for (size_t i = 0; i < cards.size(); ++i) {
-        cards[i].SetPosition(Vector2{100.0f + i * 150.0f, 600.0f});
-        cards[i].Draw();
+    const float total_width = cards.size() * this->card_width;
+    const float start_x = hand_position.x - total_width / 2.0f + this->card_width / 2.0f;
+    const Vector2 mousePos = GetMousePosition();
+
+    // set card positions
+    for (int i = 0; i < (int)cards.size(); ++i)
+        cards[i].SetPosition(Vector2{start_x + i * card_spacing, hand_position.y});
+
+    // check for hover
+    current_card_hovered = -1;
+    for (int i = (int)cards.size() - 1; i >= 0; --i) {
+        if (cards[i].IsHovered(mousePos)) {
+            current_card_hovered = i;
+            break;
+        }
     }
+
+    // draw normal cards
+    for (int i = 0; i < (int)cards.size(); ++i) {
+        if (i != current_card_hovered)
+            cards[i].Draw();
+    }
+
+    // draw hovered card last to draw it on top
+    if (current_card_hovered != -1) {
+        cards[current_card_hovered].DrawHovered();
+    }
+
 }

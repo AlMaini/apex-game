@@ -18,3 +18,6 @@ build.ninja
 Thumbs.db
 desktop.ini
 .DS_Store
+
+# claude
+.claude/
