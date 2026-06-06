@@ -1,0 +1,1 @@
+cmake -B build -G "Ninja" -DCMAKE_C_COMPILER="C:/raylib/w64devkit/bin/gcc.exe" -DCMAKE_CXX_COMPILER="C:/raylib/w64devkit/bin/g++.exe"

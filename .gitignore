@@ -1,0 +1,20 @@
+# Build output
+build/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+build.ninja
+*.ninja
+*.exe
+*.dll
+*.o
+*.a
+
+# IDE
+.vscode/
+*.lnk
+
+# OS
+Thumbs.db
+desktop.ini
+.DS_Store
