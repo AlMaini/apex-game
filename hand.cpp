@@ -1,11 +1,11 @@
 #include <vector>
 #include "hand.hpp"
 
-Hand::Hand(int window_x, int window_y, float card_width) {
+Hand::Hand(int window_x, int window_y, float card_width, int max_hand_size) {
     cards = std::vector<Card>();
     this->card_width = card_width;
-    max_hand_size = 5;
-    hand_position = Vector2{static_cast<float>(window_x) / 2.0f, static_cast<float>(window_y) - 300.0f}; // hand centered at the bottom of the screen
+    this->max_hand_size = max_hand_size;
+    hand_position = Vector2{static_cast<float>(window_x) / 2.0f, static_cast<float>(window_y) - 100.0f}; // hand centered at the bottom of the screen
     card_spacing = 40.0f;
     current_card_hovered = -1;
 }
@@ -31,8 +31,10 @@ std::vector<Card>& Hand::GetCards() {
 }
 
 void Hand::Draw() {
-    const float total_width = cards.size() * this->card_width;
-    const float start_x = hand_position.x - total_width / 2.0f + this->card_width / 2.0f;
+    if(cards.empty()){return;}
+
+    const float total_width = (cards.size() - 1) * card_spacing + card_width;
+    const float start_x = hand_position.x - total_width / 2.0f;
     const Vector2 mousePos = GetMousePosition();
 
     // set card positions

@@ -14,4 +14,6 @@ class Card
     private:
         Texture2D cardTexture;
         Vector2 position;
+        Vector2 hoverOffset; // Offset for the hover effect
+        Rectangle cardRect;
 };

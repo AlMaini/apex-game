@@ -6,7 +6,7 @@
 
 class Hand {
     public:
-        Hand(int window_x, int window_y, float card_width);
+        Hand(int window_x, int window_y, float card_width, int max_hand_size);
         void AddCard(const Card& card);
         void RemoveCard(size_t index);
         void Draw();

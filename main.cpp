@@ -12,13 +12,17 @@ int main() {
 
     int window_x = 800;
     int window_y = 800;
+    int fps = 320;
+    int max_hand_size = 10;
+
+    SetTargetFPS(fps);
 
     ResourceManager resourceManager;
-    Hand hand{window_x, window_y, 64.0f};
+    Hand hand{window_x, window_y, 64.0f, max_hand_size};
 
     InitWindow(window_x, window_y, "Apex Game");
 
-    for(int i = 0; i < 5; ++i) {
+    for(int i = 0; i < max_hand_size; ++i) {
         hand.AddCard(Card(resourceManager.GetTexture("assets/cat.png")));
     }
 
@@ -33,6 +37,7 @@ int main() {
                 cout << "Card clicked!" << endl;
                 hand.GetCards()[i] = move(hand.GetCards().back());
                 hand.GetCards().pop_back();
+                break;
             }
         }
         
