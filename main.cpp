@@ -15,7 +15,7 @@ int main() {
     int fps = 320;
     int max_hand_size = 10;
 
-    SetTargetFPS(fps);
+    // SetTargetFPS(fps);
 
     ResourceManager resourceManager;
     Hand hand{window_x, window_y, 64.0f, max_hand_size};
@@ -32,6 +32,8 @@ int main() {
         ClearBackground(RAYWHITE);
         hand.Draw();
 
+        cout << "FPS: " << GetFPS() << endl;
+
         for (int i = 0; i < hand.GetCards().size(); ++i) {
             if (hand.GetCards()[i].IsClicked(mousePos)) {
                 cout << "Card clicked!" << endl;
@@ -40,7 +42,7 @@ int main() {
                 break;
             }
         }
-        
+
         EndDrawing();
     }
 

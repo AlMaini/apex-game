@@ -19,4 +19,5 @@ class Card
         Vector2 hoverOffset;
         Rectangle cardRect;
         bool isHovered;
+        float scale;
 };

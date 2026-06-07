@@ -5,7 +5,7 @@ Hand::Hand(int window_x, int window_y, float card_width, int max_hand_size) {
     cards = std::vector<Card>();
     this->card_width = card_width;
     this->max_hand_size = max_hand_size;
-    hand_position = Vector2{static_cast<float>(window_x) / 2.0f, static_cast<float>(window_y) - 100.0f}; // hand centered at the bottom of the screen
+    hand_position = Vector2{static_cast<float>(window_x) / 2.0f, static_cast<float>(window_y) - 200.0f}; // hand centered at the bottom of the screen
     card_spacing = 40.0f;
     lastHovered = -1;
 }
@@ -55,6 +55,7 @@ void Hand::Draw() {
         lastHovered = hovered;
     }
 
+    // draw unhovered cards first, then draw hovered card
     for (int i = 0; i < (int)cards.size(); ++i)
         if (i != lastHovered) cards[i].Draw();
 

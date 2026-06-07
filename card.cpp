@@ -7,6 +7,7 @@ Card::Card(Texture2D& texture) {
     hoverOffset = Vector2{0.0f, 0.0f};
     isHovered = false;
     cardRect = Rectangle{position.x, position.y, (float)cardTexture.width, (float)cardTexture.height};
+    scale = 1.5f;
 }
 
 void Card::SetHovered(bool hovered) {
