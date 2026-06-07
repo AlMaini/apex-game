@@ -9,8 +9,10 @@ class Hand {
         Hand(int window_x, int window_y, float card_width, int max_hand_size);
         void AddCard(const Card& card);
         void RemoveCard(int index);
-        void Draw();
+        CardState GetActiveCardState();
+        int GetActiveCardIndex();
         void Clear();
+        void Draw();
         std::vector<Card>& GetCards();
 
     private:

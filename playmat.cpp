@@ -13,7 +13,10 @@ std::vector<Card>& PlayMat::GetCards(){
 }
 
 void PlayMat::AddCard(Card& card){
+    Rectangle lastRect = cards.empty() ? Rectangle{150.0f, 250.0f, 64.0f, 0.0f} : cards.back().GetRect();
     cards.push_back(card);
+    cards.back().SetState(CardState::Idle);
+    cards.back().SetPosition({lastRect.x + lastRect.width + 15.0f, lastRect.y});
 }
 
 void PlayMat::RemoveCard(int index){
@@ -28,4 +31,9 @@ bool PlayMat::MouseOnPlayMat(Vector2 mousePos){
 
 void PlayMat::Draw(){
     DrawRectangle(playArea.x, playArea.y, playArea.width, playArea.height, GRAY);
+
+    for (int i = 0; i < cards.size(); ++i){
+        cards[i].Draw();
+    }
+
 }

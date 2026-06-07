@@ -46,6 +46,14 @@ std::vector<Card>& Hand::GetCards() {
     return cards;
 }
 
+CardState Hand::GetActiveCardState(){
+    return activeState;
+}
+
+int Hand::GetActiveCardIndex(){
+    return activeIndex;
+}
+
 void Hand::Draw() {
     if (cards.empty()) return;
 

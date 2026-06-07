@@ -34,16 +34,24 @@ int main() {
         ClearBackground(RAYWHITE);
 
         // cout << "\rFrame time: " << GetFrameTime() << flush;
+
+        if (playMat.MouseOnPlayMat(mousePos) && hand.GetActiveCardState() == CardState::Dragged && IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) 
+        {
+            int activeCardIndex = hand.GetActiveCardIndex();
+            Card activeCard = hand.GetCards()[activeCardIndex];
+            hand.RemoveCard(activeCardIndex);
+            playMat.AddCard(activeCard);
+        }
         playMat.Draw();
         hand.Draw();
 
-        for (int i = 0; i < hand.GetCards().size(); ++i) {
-            if (hand.GetCards()[i].IsClicked(mousePos)) {
-                cout << "Card clicked!" << endl;
-                // hand.RemoveCard(i);
-                break;
-            }
-        }
+        // for (int i = 0; i < hand.GetCards().size(); ++i) {
+        //     if (hand.GetCards()[i].IsClicked(mousePos)) {
+        //         cout << "Card clicked!" << endl;
+        //         // hand.RemoveCard(i);
+        //         break;
+        //     }
+        // }
 
         EndDrawing();
     }

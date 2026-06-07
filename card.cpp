@@ -36,6 +36,10 @@ bool Card::IsReleased() const {
     return state == CardState::Dragged && IsMouseButtonReleased(MOUSE_BUTTON_LEFT);
 }
 
+Rectangle Card::GetRect() const {
+    return cardRect;
+}
+
 void Card::Draw() {
     if (state == CardState::Dragged) {
         UpdateOffset(20.0f, 1.0f, 0.0f);

@@ -13,6 +13,7 @@ class Card
         bool IsHovered(Vector2 mousePos) const;
         bool IsClicked(Vector2 mousePos) const;
         bool IsReleased() const;
+        Rectangle GetRect() const;
         void Draw();
 
     private:
