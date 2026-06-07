@@ -19,6 +19,6 @@ class Hand {
         Vector2 hand_position;
         float card_spacing;
         float card_width;
-        int lastHovered;
-        int lastDragged;
+        int activeIndex;
+        CardState activeState;
 };
