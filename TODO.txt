@@ -1,0 +1,1 @@
+- Fix the card dragging so that it sticks to the mouse. I believe the issue has to do with the hover state of the card rectangle. Perahaps redesign hover and drag interaction.
