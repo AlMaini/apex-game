@@ -20,6 +20,7 @@ class PlayMat{
 
     private:
         std::vector<Card> cards;
-        Rectangle playArea; 
+        Rectangle playArea;
         int maxCards;
+        int hoveredIndex;
 };

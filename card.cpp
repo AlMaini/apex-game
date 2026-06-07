@@ -8,9 +8,10 @@ Card::Card(Texture2D& texture) {
     hoverOffset = Vector2{0.0f, 0.0f};
     state = CardState::Idle;
     cardRect = Rectangle{position.x, position.y, (float)cardTexture.width, (float)cardTexture.height};
-    scale = 1.5f;
     outlineSize = 3.0f;
     currentRotation = 0.0f;
+    hoveredParams = { 8.0f,  0.1f, 25.0f, 1.5f };
+    draggedParams  = { 20.0f, 1.0f,  0.0f, 1.5f };
 }
 
 void Card::SetPosition(Vector2 newPos) {
@@ -22,6 +23,11 @@ void Card::SetPosition(Vector2 newPos) {
 void Card::SetState(CardState newState) {
     if (newState == CardState::Idle) hoverOffset = {0.0f, 0.0f};
     state = newState;
+}
+
+void Card::SetParams(CardState target, StateParams params) {
+    if (target == CardState::Hovered) hoveredParams = params;
+    else if (target == CardState::Dragged) draggedParams = params;
 }
 
 bool Card::IsHovered(Vector2 mousePos) const {
@@ -42,11 +48,11 @@ Rectangle Card::GetRect() const {
 
 void Card::Draw() {
     if (state == CardState::Dragged) {
-        UpdateOffset(20.0f, 1.0f, 0.0f);
-        DrawSpecial();
+        UpdateOffset(draggedParams.speed, draggedParams.bias, draggedParams.yOffset);
+        DrawSpecial(draggedParams.scale);
     } else if (state == CardState::Hovered) {
-        UpdateOffset(8.0f, 0.1f, 25.0f);
-        DrawSpecial();
+        UpdateOffset(hoveredParams.speed, hoveredParams.bias, hoveredParams.yOffset);
+        DrawSpecial(hoveredParams.scale);
     } else {
         cardRect = {position.x, position.y, (float)cardTexture.width, (float)cardTexture.height};
         DrawTextureV(cardTexture, position, WHITE);
@@ -77,7 +83,7 @@ void Card::UpdateOffset(float speed, float bias, float yOffset) {
     currentRotation += (0.0f - currentRotation) * speed * dt;
 }
 
-void Card::DrawSpecial() {
+void Card::DrawSpecial(float scale) {
     float w = cardTexture.width  * scale;
     float h = cardTexture.height * scale;
 

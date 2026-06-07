@@ -3,6 +3,13 @@
 
 enum class CardState { Idle, Hovered, Dragged };
 
+struct StateParams {
+    float speed;
+    float bias;
+    float yOffset;
+    float scale;
+};
+
 class Card
 {
     public:
@@ -10,6 +17,7 @@ class Card
 
         void SetState(CardState newState);
         void SetPosition(Vector2 newPos);
+        void SetParams(CardState state, StateParams params);
         bool IsHovered(Vector2 mousePos) const;
         bool IsClicked(Vector2 mousePos) const;
         bool IsReleased() const;
@@ -18,7 +26,7 @@ class Card
 
     private:
         void UpdateOffset(float speed, float bias, float yOffset);
-        void DrawSpecial();
+        void DrawSpecial(float scale);
 
         Texture2D cardTexture;
         Vector2 position;
@@ -26,7 +34,9 @@ class Card
         Rectangle cardRect;
 
         CardState state;
-        float scale;
         float outlineSize;
         float currentRotation;
+
+        StateParams hoveredParams;
+        StateParams draggedParams;
 };
