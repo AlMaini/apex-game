@@ -11,10 +11,10 @@ class Card
         bool IsHovered(Vector2 mousePos);
         bool IsClicked(Vector2 mousePos);
         bool IsDragged(Vector2 mousePos);
-
         void Draw();
 
     private:
+        void UpdateHovered();
         void DrawHovered();
         
 
@@ -26,4 +26,5 @@ class Card
         bool isHovered;
         float scale;
         float outlineSize;
+        float currentRotation;
 };

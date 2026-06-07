@@ -1,4 +1,5 @@
 #include <raylib.h>
+#include <cmath>
 #include "card.hpp"
 
 Card::Card(Texture2D& texture) {
@@ -9,6 +10,7 @@ Card::Card(Texture2D& texture) {
     cardRect = Rectangle{position.x, position.y, (float)cardTexture.width, (float)cardTexture.height};
     scale = 1.5f;
     outlineSize = 3.0f;
+    currentRotation = 0.0f;
 }
 
 void Card::SetPosition(Vector2 newPos) {
@@ -43,47 +45,49 @@ void Card::Draw() {
     }
 }
 
-void Card::DrawHovered() {
+void Card::UpdateHovered() {
     Vector2 mousePos = GetMousePosition();
-    float dt = GetFrameTime();
+    float dt = IsDragged(mousePos) ? 0.050f : GetFrameTime();
     float speed = 8.0f;
-    float centerBias;
 
-    Vector2 center = {
+    // resting center = natural center before any offset is applied
+    Vector2 restCenter = {
         position.x + cardTexture.width  / 2.0f,
         position.y + cardTexture.height / 2.0f
     };
 
-    Vector2 target;
-    if (IsDragged(mousePos)) {
-        centerBias = 1.0f;
-        dt = 0.050f; // this value seems to make it track mouse perfectly 
-    } else {
-        centerBias = 0.1f;
-    }
-
-    target = {
-        (mousePos.x - center.x) * centerBias,
-        (mousePos.y - center.y) * centerBias
+    // hover: subtle tilt (10% of displacement); drag: full follow so center chases mouse
+    float bias = IsDragged(mousePos) ? 1.0f : 0.1f;
+    Vector2 target = {
+        (mousePos.x - restCenter.x) * bias,
+        (mousePos.y - restCenter.y) * bias
     };
 
     hoverOffset.x += (target.x - hoverOffset.x) * speed * dt;
     hoverOffset.y += (target.y - hoverOffset.y) * speed * dt;
 
-    Vector2 scaledPos = {
-        (position.x + hoverOffset.x) - cardTexture.width  * (scale - 1.0f) / 2.0f,
-        (position.y + hoverOffset.y) - cardTexture.height * (scale - 1.0f) / 2.0f
+    currentRotation += GetMouseDelta().x * 0.2f;
+    currentRotation += (0.0f - currentRotation) * speed * dt;
+}
+
+void Card::DrawHovered() {
+    UpdateHovered();
+
+    float w = cardTexture.width  * scale;
+    float h = cardTexture.height * scale;
+
+    // visual center: natural card center + lerp offset
+    Vector2 pivot = {
+        position.x + cardTexture.width  / 2.0f + hoverOffset.x,
+        position.y + cardTexture.height / 2.0f + hoverOffset.y
     };
 
-    cardRect = {scaledPos.x, scaledPos.y, (float)cardTexture.width * scale, (float)cardTexture.height * scale};
+    cardRect = { pivot.x - w / 2.0f, pivot.y - h / 2.0f, w, h };
 
+    Rectangle src     = { 0, 0, (float)cardTexture.width, (float)cardTexture.height };
+    Rectangle cardDst = { pivot.x, pivot.y, w, h };
+    Rectangle outline = { pivot.x, pivot.y, w + outlineSize * 2.0f, h + outlineSize * 2.0f };
 
-    DrawRectangle(
-        (int)(scaledPos.x - outlineSize),
-        (int)(scaledPos.y - outlineSize),
-        (int)(cardTexture.width  * scale + outlineSize * 2),
-        (int)(cardTexture.height * scale + outlineSize * 2),
-        YELLOW
-    );
-    DrawTextureEx(cardTexture, scaledPos, 0.0f, scale, WHITE);
+    DrawRectanglePro(outline, { outline.width / 2.0f, outline.height / 2.0f }, currentRotation, YELLOW);
+    DrawTexturePro(cardTexture, src, cardDst, { w / 2.0f, h / 2.0f }, currentRotation, WHITE);
 }
