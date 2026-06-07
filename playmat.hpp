@@ -13,10 +13,13 @@ class PlayMat{
         void AddCard(Card& card);
         void RemoveCard(int index);
 
+        bool IsFull();
+
         bool MouseOnPlayMat(Vector2 mousePos);
         void Draw();
 
     private:
         std::vector<Card> cards;
         Rectangle playArea; 
+        int maxCards;
 };

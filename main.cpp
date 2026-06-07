@@ -35,7 +35,7 @@ int main() {
 
         // cout << "\rFrame time: " << GetFrameTime() << flush;
 
-        if (playMat.MouseOnPlayMat(mousePos) && hand.GetActiveCardState() == CardState::Dragged && IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) 
+        if (!playMat.IsFull() && playMat.MouseOnPlayMat(mousePos) && hand.GetActiveCardState() == CardState::Dragged && IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) 
         {
             int activeCardIndex = hand.GetActiveCardIndex();
             Card activeCard = hand.GetCards()[activeCardIndex];

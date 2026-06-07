@@ -6,13 +6,20 @@
 PlayMat::PlayMat(Vector2 startCoordinates, float width, float height){
     playArea = Rectangle{startCoordinates.x, startCoordinates.y, width, height};
     cards = std::vector<Card>();
+    maxCards = 4;
 }
 
 std::vector<Card>& PlayMat::GetCards(){
     return cards;
 }
 
+bool PlayMat::IsFull(){
+    return cards.size() == maxCards;
+}
+
 void PlayMat::AddCard(Card& card){
+    if (IsFull()) return;
+
     Rectangle lastRect = cards.empty() ? Rectangle{150.0f, 250.0f, 64.0f, 0.0f} : cards.back().GetRect();
     cards.push_back(card);
     cards.back().SetState(CardState::Idle);
