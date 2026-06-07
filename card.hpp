@@ -20,4 +20,5 @@ class Card
         Rectangle cardRect;
         bool isHovered;
         float scale;
+        float outlineSize;
 };

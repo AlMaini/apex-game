@@ -32,13 +32,10 @@ int main() {
         ClearBackground(RAYWHITE);
         hand.Draw();
 
-        cout << "FPS: " << GetFPS() << endl;
-
         for (int i = 0; i < hand.GetCards().size(); ++i) {
             if (hand.GetCards()[i].IsClicked(mousePos)) {
                 cout << "Card clicked!" << endl;
-                hand.GetCards()[i] = move(hand.GetCards().back());
-                hand.GetCards().pop_back();
+                hand.RemoveAt(i);
                 break;
             }
         }

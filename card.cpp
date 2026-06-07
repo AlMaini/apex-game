@@ -8,6 +8,7 @@ Card::Card(Texture2D& texture) {
     isHovered = false;
     cardRect = Rectangle{position.x, position.y, (float)cardTexture.width, (float)cardTexture.height};
     scale = 1.5f;
+    outlineSize = 3.0f;
 }
 
 void Card::SetHovered(bool hovered) {
@@ -40,14 +41,22 @@ void Card::DrawHovered() {
     hoverOffset.x += (target.x - hoverOffset.x) * speed * dt;
     hoverOffset.y += (target.y - hoverOffset.y) * speed * dt;
 
-    float scale = 1.5f;
     Vector2 scaledPos = {
         (position.x + hoverOffset.x) - cardTexture.width  * (scale - 1.0f) / 2.0f,
         (position.y + hoverOffset.y) - cardTexture.height * (scale - 1.0f) / 2.0f
     };
 
     cardRect = {scaledPos.x, scaledPos.y, (float)cardTexture.width * scale, (float)cardTexture.height * scale};
-    DrawTextureEx(cardTexture, scaledPos, 0.0f, scale, YELLOW);
+
+
+    DrawRectangle(
+        (int)(scaledPos.x - outlineSize),
+        (int)(scaledPos.y - outlineSize),
+        (int)(cardTexture.width  * scale + outlineSize * 2),
+        (int)(cardTexture.height * scale + outlineSize * 2),
+        YELLOW
+    );
+    DrawTextureEx(cardTexture, scaledPos, 0.0f, scale, WHITE);
 }
 
 bool Card::IsHovered(Vector2 mousePos) {

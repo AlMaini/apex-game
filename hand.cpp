@@ -22,6 +22,18 @@ void Hand::RemoveCard(size_t index) {
     }
 }
 
+void Hand::RemoveAt(int index) {
+    int back = (int)cards.size() - 1;
+    if (lastHovered == index) {
+        cards[index].SetHovered(false);
+        lastHovered = -1;
+    } else if (lastHovered == back) {
+        lastHovered = index;
+    }
+    cards[index] = std::move(cards.back());
+    cards.pop_back();
+}
+
 void Hand::Clear() {
     cards.clear();
 }
