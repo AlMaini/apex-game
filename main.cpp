@@ -12,7 +12,7 @@ int main() {
 
     int window_x = 800;
     int window_y = 800;
-    int fps = 320;
+    int fps = 60;
     int max_hand_size = 10;
 
     // SetTargetFPS(fps);
