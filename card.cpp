@@ -1,17 +1,22 @@
 #include <raylib.h>
+#include <raymath.h>
 #include "card.hpp"
 
 Card::Card(Texture2D& texture) {
     cardTexture = texture;
-    position = Vector2{0.0f, 0.0f};
-    hoverOffset = Vector2{0.0f, 0.0f};
+    position = {0.0f, 0.0f, 0.0f};
+    hoverOffset = {0.0f, 0.0f, 0.0f};
     isHovered = false;
-    cardRect = Rectangle{position.x, position.y, (float)cardTexture.width, (float)cardTexture.height};
-    scale = 1.5f;
+
+    float w = (float)cardTexture.width;
+    float h = (float)cardTexture.height;
+    Mesh mesh = GenMeshPlane(w, h, 1, 1);
+    cardModel = LoadModelFromMesh(mesh);
+    SetMaterialTexture(&cardModel.materials[0], MATERIAL_MAP_DIFFUSE, cardTexture);
 }
 
 void Card::SetHovered(bool hovered) {
-    if (!hovered) hoverOffset = {0.0f, 0.0f};
+    if (!hovered) hoverOffset = {0.0f, 0.0f, 0.0f};
     isHovered = hovered;
 }
 
@@ -19,8 +24,7 @@ void Card::Draw() {
     if (isHovered) {
         DrawHovered();
     } else {
-        cardRect = {position.x, position.y, (float)cardTexture.width, (float)cardTexture.height};
-        DrawTextureV(cardTexture, position, WHITE);
+        DrawModelEx(cardModel, position, {1.0f, 0.0f, 0.0f}, 0.0f, {1.0f, 1.0f, 1.0f}, WHITE);
     }
 }
 
@@ -29,37 +33,31 @@ void Card::DrawHovered() {
     float dt = GetFrameTime();
     float speed = 8.0f;
 
-    Vector2 cardCenter = {
-        position.x + cardTexture.width  / 2.0f,
-        position.y + cardTexture.height / 2.0f
-    };
-    Vector2 target = {
-        (mousePos.x - cardCenter.x) * 0.1f,
-        (mousePos.y - cardCenter.y) * 0.1f
-    };
-    hoverOffset.x += (target.x - hoverOffset.x) * speed * dt;
-    hoverOffset.y += (target.y - hoverOffset.y) * speed * dt;
+    float targetX = (mousePos.x - GetScreenWidth()  / 2.0f) * 0.03f;
+    float targetZ = (mousePos.y - GetScreenHeight() / 2.0f) * 0.03f;
 
-    float scale = 1.5f;
-    Vector2 scaledPos = {
-        (position.x + hoverOffset.x) - cardTexture.width  * (scale - 1.0f) / 2.0f,
-        (position.y + hoverOffset.y) - cardTexture.height * (scale - 1.0f) / 2.0f
+    hoverOffset.x += (targetX - hoverOffset.x) * speed * dt;
+    hoverOffset.z += (targetZ - hoverOffset.z) * speed * dt;
+
+    Vector3 drawPos = {
+        position.x + hoverOffset.x,
+        position.y + 40.0f,
+        position.z + hoverOffset.z
     };
 
-    cardRect = {scaledPos.x, scaledPos.y, (float)cardTexture.width * scale, (float)cardTexture.height * scale};
-    DrawTextureEx(cardTexture, scaledPos, 0.0f, scale, YELLOW);
+    DrawModelEx(cardModel, drawPos, {1.0f, 0.0f, 0.0f}, 0.0f, {1.0f, 1.0f, 1.0f}, YELLOW);
 }
 
-bool Card::IsHovered(Vector2 mousePos) {
-    return CheckCollisionPointRec(mousePos, cardRect);
+bool Card::IsHovered(Ray ray) {
+    Matrix transform = MatrixTranslate(position.x, position.y, position.z);
+    RayCollision col = GetRayCollisionMesh(ray, cardModel.meshes[0], transform);
+    return col.hit;
 }
 
-bool Card::IsClicked(Vector2 mousePos) {
-    return IsHovered(mousePos) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
+bool Card::IsClicked(Ray ray) {
+    return IsHovered(ray) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
 }
 
-void Card::SetPosition(Vector2 newPos) {
+void Card::SetPosition(Vector3 newPos) {
     position = newPos;
-    if (!isHovered)
-        cardRect = {position.x, position.y, (float)cardTexture.width, (float)cardTexture.height};
 }

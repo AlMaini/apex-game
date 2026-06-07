@@ -9,14 +9,14 @@ class Hand {
         Hand(int window_x, int window_y, float card_width, int max_hand_size);
         void AddCard(const Card& card);
         void RemoveCard(size_t index);
-        void Draw();
+        void Draw(Camera3D camera);
         void Clear();
         std::vector<Card>& GetCards();
 
     private:
         std::vector<Card> cards;
         int max_hand_size;
-        Vector2 hand_position;
+        Vector3 hand_position;
         float card_spacing;
         float card_width;
         int lastHovered;

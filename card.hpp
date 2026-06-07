@@ -7,17 +7,16 @@ class Card
         Card(Texture2D& texture);
         void Draw();
         void SetHovered(bool hovered);
-        bool IsHovered(Vector2 mousePos);
-        bool IsClicked(Vector2 mousePos);
-        void SetPosition(Vector2 newPos);
+        bool IsHovered(Ray ray);
+        bool IsClicked(Ray ray);
+        void SetPosition(Vector3 newPos);
 
     private:
         void DrawHovered();
 
         Texture2D cardTexture;
-        Vector2 position;
-        Vector2 hoverOffset;
-        Rectangle cardRect;
+        Model cardModel;
+        Vector3 position;
+        Vector3 hoverOffset;
         bool isHovered;
-        float scale;
 };
