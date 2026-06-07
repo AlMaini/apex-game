@@ -16,13 +16,7 @@ void Hand::AddCard(const Card& card) {
     }
 }
 
-void Hand::RemoveCard(size_t index) {
-    if (index < cards.size()) {
-        cards.erase(cards.begin() + index);
-    }
-}
-
-void Hand::RemoveAt(int index) {
+void Hand::RemoveCard(int index) {
     int back = (int)cards.size() - 1;
     if (lastHovered == index) {
         cards[index].SetHovered(false);

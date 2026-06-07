@@ -66,7 +66,7 @@ void Card::UpdateHovered() {
     hoverOffset.x += (target.x - hoverOffset.x) * speed * dt;
     hoverOffset.y += (target.y - hoverOffset.y) * speed * dt;
 
-    float rotationSensitivity = IsDragged(mousePos) ? (float)GetFPS() / 360.0f : 0.2f; 
+    float rotationSensitivity = IsDragged(mousePos) ? (float)GetFPS() / 360.0f : 0.2f; // 360 is jsut trial and error till it felt right
     currentRotation += GetMouseDelta().x * rotationSensitivity; // accumulates tilt based on mouse delta
     currentRotation += (0.0f - currentRotation) * speed * dt; // decays to 0.0f
 }
