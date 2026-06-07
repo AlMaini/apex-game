@@ -6,8 +6,9 @@ Hand::Hand(int window_x, int window_y, float card_width, int max_hand_size) {
     this->card_width = card_width;
     this->max_hand_size = max_hand_size;
     hand_position = Vector2{static_cast<float>(window_x) / 2.0f, static_cast<float>(window_y) - 200.0f}; // hand centered at the bottom of the screen
-    card_spacing = 40.0f;
+    card_spacing = (2.0f/3.0f) * card_width;
     lastHovered = -1;
+    lastDragged = -1;
 }
 
 void Hand::AddCard(const Card& card) {
@@ -47,9 +48,19 @@ void Hand::Draw() {
         cards[i].SetPosition(Vector2{start_x + i * card_spacing, hand_position.y});
 
     int hovered = -1;
+    int dragged = -1;
     for (int i = (int)cards.size() - 1; i >= 0; --i) {
-        if (cards[i].IsHovered(mousePos)) {
+        if (lastDragged != -1 && cards[lastDragged].IsDragged(mousePos)){
+            dragged = lastDragged;
+        }
+
+        else if (cards[i].IsHovered(mousePos)) {
             hovered = i;
+            if (cards[i].IsDragged(mousePos)){
+                hovered = -1;
+                dragged = i;
+            }
+
             break;
         }
     }
@@ -57,15 +68,25 @@ void Hand::Draw() {
     // if the hovered card changed, set previous to false 
     if (lastHovered != hovered) {
         if (lastHovered != -1) cards[lastHovered].SetHovered(false);
-        if (hovered != -1)           cards[hovered].SetHovered(true);
+        if (hovered != -1)          cards[hovered].SetHovered(true);
         lastHovered = hovered;
+    }
+
+    if (lastDragged != dragged) {
+        if (lastDragged != -1) cards[lastDragged].SetDragged(false);
+        if (dragged != -1)          cards[dragged].SetDragged(true);
+        lastDragged = dragged; 
     }
 
     // draw unhovered cards first, then draw hovered card
     for (int i = 0; i < (int)cards.size(); ++i)
         if (i != lastHovered) cards[i].Draw();
 
-    if (lastHovered != -1)
+    if (lastHovered != -1) {
         cards[lastHovered].Draw();
+    }
+    else if (lastDragged != -1){
+        cards[lastDragged].Draw();
+    }
 
 }

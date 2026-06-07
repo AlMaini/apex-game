@@ -20,4 +20,5 @@ class Hand {
         float card_spacing;
         float card_width;
         int lastHovered;
+        int lastDragged;
 };
