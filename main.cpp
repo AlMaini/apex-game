@@ -30,12 +30,15 @@ int main() {
         Vector2 mousePos = GetMousePosition();
         BeginDrawing();
         ClearBackground(RAYWHITE);
+
+        // cout << "\rFrame time: " << GetFrameTime() << flush;
+
         hand.Draw();
 
         for (int i = 0; i < hand.GetCards().size(); ++i) {
             if (hand.GetCards()[i].IsClicked(mousePos)) {
                 cout << "Card clicked!" << endl;
-                hand.RemoveAt(i);
+                // hand.RemoveAt(i);
                 break;
             }
         }
