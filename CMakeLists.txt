@@ -14,6 +14,7 @@ add_executable(apex-game
     card.cpp
     resource_manager.cpp
     hand.cpp
+    playmat.cpp
 )
 
 if(WIN32)

@@ -5,6 +5,7 @@
 #include "resource_manager.hpp"
 #include "card.hpp"
 #include "hand.hpp"
+#include "playmat.hpp"
 
 using namespace std;
 
@@ -19,6 +20,7 @@ int main() {
 
     ResourceManager resourceManager;
     Hand hand{window_x, window_y, 64.0f, max_hand_size};
+    PlayMat playMat{{200.0f, 200.0f}, 400.f, 200.0f};
 
     InitWindow(window_x, window_y, "Apex Game");
 
@@ -32,7 +34,7 @@ int main() {
         ClearBackground(RAYWHITE);
 
         // cout << "\rFrame time: " << GetFrameTime() << flush;
-
+        playMat.Draw();
         hand.Draw();
 
         for (int i = 0; i < hand.GetCards().size(); ++i) {
