@@ -1,0 +1,29 @@
+{
+  "version": 4,
+  "configurePresets": [
+    {
+      "name": "Linux",
+      "displayName": "Default Config",
+      "description": "Default build using Ninja generator",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build",
+      "cacheVariables": {
+        "CMAKE_PREFIX_PATH": "${sourceParentDir}/install"
+      },
+      "environment": {}
+    },
+    {
+      "name": "Windows",
+      "displayName": "Windows Config",
+      "description": "Default build using Ninja generator",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build",
+      "cacheVariables": {
+        "CMAKE_PREFIX_PATH": "${sourceParentDir}/install",
+        "CMAKE_C_COMPILER": "C:/raylib/w64devkit/bin/gcc.exe",
+        "CMAKE_CXX_COMPILER": "C:/raylib/w64devkit/bin/g++.exe"
+      },
+      "environment": {}
+    }
+  ]
+}

@@ -2,10 +2,10 @@
 #include <vector>
 #include <raylib.h>
 
-#include "resource_manager.hpp"
-#include "card.hpp"
-#include "hand.hpp"
-#include "playmat.hpp"
+#include <resource_manager.hpp>
+#include <card.hpp>
+#include <hand.hpp>
+#include <playmat.hpp>
 
 using namespace std;
 
