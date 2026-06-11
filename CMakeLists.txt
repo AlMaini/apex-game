@@ -33,7 +33,6 @@ elseif(APPLE)
         "-framework CoreVideo"
     )
 elseif(CMAKE_SYSTEM_NAME STREQUAL Linux)
-    message("Linux Detected")
     target_link_libraries(apex-game
         PRIVATE
             raylib
@@ -41,6 +40,7 @@ elseif(CMAKE_SYSTEM_NAME STREQUAL Linux)
 endif()
 
 
+option(APEXGAME_ENABLE_IPO "Enable interprocedural optimisation" ON)
 if(APEXGAME_ENABLE_IPO)
     include(CheckIPOSupported)
     check_ipo_supported(RESULT result OUTPUT output)

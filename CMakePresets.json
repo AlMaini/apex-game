@@ -2,26 +2,84 @@
   "version": 4,
   "configurePresets": [
     {
-      "name": "Linux",
-      "displayName": "Default Config",
-      "description": "Default build using Ninja generator",
+      "name": "LinuxDebug",
+      "displayName": "Debug Build on Linux",
+      "description": "Debug Build on Linux with Ninja generator",
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/build",
       "cacheVariables": {
-        "CMAKE_PREFIX_PATH": "${sourceParentDir}/install"
+        "CMAKE_PREFIX_PATH": "${sourceParentDir}/install",
+        "CMAKE_BUILD_TYPE": "Debug",
+        "APEXGAME_ENABLE_IPO": "OFF"
       },
       "environment": {}
     },
     {
-      "name": "Windows",
-      "displayName": "Windows Config",
-      "description": "Default build using Ninja generator",
+      "name": "LinuxRelease",
+      "displayName": "Release Build on Linux",
+      "description": "Release Build on Linux using Ninja generator",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build",
+      "cacheVariables": {
+        "CMAKE_PREFIX_PATH": "${sourceParentDir}/install",
+        "CMAKE_BUILD_TYPE": "Release",
+        "APEXGAME_ENABLE_IPO": "ON"
+      },
+      "environment": {}
+    },
+    {
+      "name": "WindowsDebug",
+      "displayName": "Debug Build on Windows",
+      "description": "Debug Build on Windows using Ninja generator",
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/build",
       "cacheVariables": {
         "CMAKE_PREFIX_PATH": "${sourceParentDir}/install",
         "CMAKE_C_COMPILER": "C:/raylib/w64devkit/bin/gcc.exe",
-        "CMAKE_CXX_COMPILER": "C:/raylib/w64devkit/bin/g++.exe"
+        "CMAKE_CXX_COMPILER": "C:/raylib/w64devkit/bin/g++.exe",
+        "CMAKE_BUILD_TYPE": "Debug",
+        "APEXGAME_ENABLE_IPO": "OFF"
+      },
+      "environment": {}
+    },
+    {
+      "name": "WindowsRelease",
+      "displayName": "Release Build on Windows",
+      "description": "Release Build on Windows using Ninja generator",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build",
+      "cacheVariables": {
+        "CMAKE_PREFIX_PATH": "${sourceParentDir}/install",
+        "CMAKE_C_COMPILER": "C:/raylib/w64devkit/bin/gcc.exe",
+        "CMAKE_CXX_COMPILER": "C:/raylib/w64devkit/bin/g++.exe",
+        "CMAKE_BUILD_TYPE": "Release",
+        "APEXGAME_ENABLE_IPO": "ON"
+      },
+      "environment": {}
+    },
+    {
+      "name": "AppleDebug",
+      "displayName": "Debug Build on Apple",
+      "description": "Debug Build on Apple using Ninja generator",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build",
+      "cacheVariables": {
+        "CMAKE_PREFIX_PATH": "${sourceParentDir}/install",
+        "CMAKE_BUILD_TYPE": "Debug",
+        "APEXGAME_ENABLE_IPO": "OFF"
+      },
+      "environment": {}
+    },
+    {
+      "name": "AppleRelease",
+      "displayName": "Release Build on Apple",
+      "description": "Release Build on Apple using Ninja generator",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build",
+      "cacheVariables": {
+        "CMAKE_PREFIX_PATH": "${sourceParentDir}/install",
+        "CMAKE_BUILD_TYPE": "Release",
+        "APEXGAME_ENABLE_IPO": "ON"
       },
       "environment": {}
     }
